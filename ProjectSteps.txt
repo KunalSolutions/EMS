@@ -1,0 +1,114 @@
+DAY1 -
+
+Step 1: Setup Backend
+
+Create a folder (ems-backend) and run npm init -y.
+
+Install dependencies: express, mongoose, bcrypt, cors, jsonwebtoken, dotenv.
+
+Add nodemon for development: npm install -D nodemon.
+
+Create .env with:
+
+MONGO_URI=mongodb://127.0.0.1:27017/ems
+JWT_KEY=your_secret_key
+PORT=5000
+
+Setup MongoDB connection with Mongoose (db.js) and log success/error.
+
+Create User model (models/User.js) with fields: name, email, password, role.
+
+Create auth controller (login) using bcrypt + JWT.
+
+Create auth routes and connect them in index.js.
+
+Create seed admin script to add an initial admin user.
+
+
+Step 2: Setup Frontend
+
+Create React project with Vite: npm create vite@latest ems-frontend.
+
+Install dependencies: axios, react-router-dom, tailwindcss.
+
+Setup Tailwind:
+
+npx tailwindcss init -p
+
+Configure tailwind.config.js and index.css.
+
+Create AuthContext with React Context + custom useAuth hook.
+
+Create Login component:
+
+Form with email, password, remember me, forgot password, and login button.
+
+Handle form submit using axios.post to backend login route.
+
+Store token in localStorage and user in context.
+
+Redirect based on role (admin-dashboard / employee-dashboard).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Step 3: Flow Summary
+
+Frontend calls POST /api/auth/login with email & password.
+
+Backend:
+
+Finds user in MongoDB.
+
+Compares password with bcrypt.
+
+Returns JWT and user info if correct.
+
+Frontend:
+
+Stores JWT in localStorage.
+
+Updates AuthContext with user.
+
+Redirects based on role.
+
+Error handling:
+
+Backend returns proper 404 or 500.
+
+Frontend shows error messages from backend.
+
+
+
+
+
+
+
+
+
+Step 4: Testing
+
+Start backend: npm run dev.
+
+Seed admin user if not exists.
+
+Start frontend: npm run dev.
+
+Open login page and test:
+
+Correct login → redirect to dashboard.
+
+Wrong email/password → show proper error.
