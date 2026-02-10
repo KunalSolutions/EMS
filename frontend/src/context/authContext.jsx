@@ -25,6 +25,7 @@ const AuthProvider = ({ children }) => {
           }
         } else {
           setUser(null)
+          setLoading(false)
         }
         } catch (error) {
           if(error.response && !error.response.data.user.error )
@@ -47,7 +48,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, setLoading }}>
       {children}
     </AuthContext.Provider>
   );
