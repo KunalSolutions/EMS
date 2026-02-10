@@ -1,22 +1,16 @@
-import React from 'react'
-import { useAuth } from '../context/authContext'
-import { useNavigate } from 'react-router-dom';
+import AdminSidebar from "../components/dashboard/AdminSidebar";
+import AdminSummary from "../components/dashboard/AdminSummary";
+import { useAuth } from "../context/authContext";
 
 const AdminDashboard = () => {
-  const {user, loading} = useAuth();
-  const navigate = useNavigate()
+  const { user } = useAuth();
 
-  if(loading) {
-    return <div>
-      Loading...
-    </div>
-  }
-  if(!user) {
-    navigate('/login')
-  }
   return (
-    <div>AdminDashboard {user.name} </div>
-  )
-}
+    <div className="flex min-h-screen bg-gray-100">
+      <AdminSidebar />
+      <AdminSummary />
+    </div>
+  );
+};
 
-export default AdminDashboard
+export default AdminDashboard;
