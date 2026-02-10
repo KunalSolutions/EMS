@@ -1,5 +1,5 @@
 // src/context/authContext.jsx
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 // ✅ Create a proper context
 const AuthContext = createContext();
@@ -7,6 +7,34 @@ const AuthContext = createContext();
 // ✅ Provider component
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading , setLoading] = useState(true)
+  
+  useEffect(() => {
+    const verifyUser = async () => {
+        try {
+          const token = localStorage.getItem('token')
+          if(token) {
+
+          const response = await axios.get('http://localhost:5000/api/auth/verify', {
+            Headers: {
+              "Authorization" : `Bearer ${token}`
+            }
+          }) 
+          if (response.data.success){
+            setUser(response.data.user)
+          }
+        } else {
+          setUser(null)
+        }
+        } catch (error) {
+          if(error.response && !error.response.data.user.error )
+            setUser(null)
+        } finally {
+          setLoading(false)
+        }
+    }
+    verifyUser()
+  }, [])
 
   const login = (userData) => {
     setUser(userData);
@@ -19,7 +47,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
